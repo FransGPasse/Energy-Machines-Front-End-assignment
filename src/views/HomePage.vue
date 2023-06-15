@@ -14,7 +14,7 @@
             class="hover:bg-primary-focus"
           >
             <button
-              @click="getPagesByProjectId(project.id)"
+              @click="getPagesByProjectId(project.id, project.name)"
               class="hover:text-accent-focus"
             >
               {{ project.name }}
@@ -64,6 +64,7 @@
         </button>
       </section>
     </div>
+    <h2 v-if="page" class="text-center text-3xl">Project {{ projectName }}</h2>
     <div
       v-if="page"
       class="grid gap-4 items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
@@ -84,6 +85,7 @@ import { getProjects, getPages } from "../services";
 import { Project as ProjectsType, Page as PageType } from "../models/index";
 import Card from "../components/Card.vue";
 
+const projectName = ref("");
 const inputText = ref("");
 const todoState = ref("CREATED");
 const projects = ref<ProjectsType[]>([]);
@@ -93,8 +95,9 @@ onMounted(async (): Promise<void> => {
   projects.value = await getProjects();
 });
 
-async function getPagesByProjectId(id: string): Promise<void> {
+async function getPagesByProjectId(id: string, name: string): Promise<void> {
   page.value = await getPages(id);
+  projectName.value = name;
 }
 
 function addTodo(todoObject: { name: string; state: string }): void {
