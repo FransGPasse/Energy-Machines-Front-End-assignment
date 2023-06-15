@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <h2>Hi again!</h2>
+  <div class="hero">
+    <div class="hero-content flex flex-col">
+      <h2 class="text-4xl">Frans Energy Machines' Todo-list</h2>
+    </div>
   </div>
 </template>
 
