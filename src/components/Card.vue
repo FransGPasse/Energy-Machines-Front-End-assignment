@@ -4,10 +4,9 @@
       <h2 class="card-title text-xl">
         {{ name }}
       </h2>
-      <span
-        class="badge-primary rounded-full py-1 px-2 text-center max-w-fit ml-auto"
-        >{{ state }}</span
-      >
+      <div class="badge" :class="state ? 'badge-success' : 'badge-error'">
+        {{ state ? "Completed" : "Not completed" }}
+      </div>
     </div>
   </div>
 </template>
@@ -15,7 +14,7 @@
 <script setup lang="ts">
 defineProps({
   name: String,
-  state: String,
+  state: Boolean,
 });
 </script>
 

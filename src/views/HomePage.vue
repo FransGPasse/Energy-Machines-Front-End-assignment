@@ -5,23 +5,16 @@
     <h2 class="text-4xl text-center">Frans' & Energy Machines' ToDo-list</h2>
 
     <div class="flex flex-col w-full items-center space-y-4">
-      <details class="dropdown">
-        <summary class="btn btn-primary mb-1">Projects</summary>
-        <ul class="p-1 bg-secondary shadow menu dropdown-content rounded-box">
-          <li
-            v-for="(project, i) in projects"
-            :key="i"
-            class="hover:bg-primary-focus"
-          >
-            <button
-              @click="getPagesByProjectId(project.id, project.name)"
-              class="hover:text-accent-focus"
-            >
-              {{ project.name }}
-            </button>
-          </li>
-        </ul>
-      </details>
+      <div class="flex space-x-4">
+        <button
+          v-for="(project, i) in projects"
+          :key="i"
+          @click="getPagesByProjectId(project.id, project.name)"
+          class="btn btn-primary"
+        >
+          {{ project.name }}
+        </button>
+      </div>
 
       <section v-if="page" class="flex flex-col space-y-3 w-full">
         <div class="flex justify-center items-center space-x-3">
@@ -34,29 +27,18 @@
 
           <div class="form-control">
             <label class="label cursor-pointer">
-              <span class="label-text">Created</span>
+              <span class="label-text">Completed</span>
               <input
-                v-model="todoState"
-                value="CREATED"
-                type="radio"
-                class="radio checked:bg-primary ml-2"
-                checked
-              />
-            </label>
-            <label class="label cursor-pointer">
-              <span class="label-text">Updated</span>
-              <input
-                v-model="todoState"
-                value="UPDATED"
-                type="radio"
-                class="radio checked:bg-primary ml-2"
+                v-model="completed"
+                type="checkbox"
+                class="checkbox checkbox-primary ml-2"
               />
             </label>
           </div>
         </div>
 
         <button
-          @click="addTodo({ name: inputText, state: todoState })"
+          @click="addTodo({ name: inputText, state: completed })"
           class="btn btn-primary w-fit m-auto"
           :disabled="!inputText"
         >
@@ -87,7 +69,7 @@ import Card from "../components/Card.vue";
 
 const projectName = ref("");
 const inputText = ref("");
-const todoState = ref("CREATED");
+const completed = ref(false);
 const projects = ref<ProjectsType[]>([]);
 const page = ref<PageType>();
 
@@ -100,7 +82,7 @@ async function getPagesByProjectId(id: string, name: string): Promise<void> {
   projectName.value = name;
 }
 
-function addTodo(todoObject: { name: string; state: string }): void {
+function addTodo(todoObject: { name: string; state: boolean }): void {
   page.value?.children.push(todoObject);
   inputText.value = "";
 }
