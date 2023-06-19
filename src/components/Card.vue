@@ -4,18 +4,15 @@
       <h2 class="card-title text-xl">
         {{ name }}
       </h2>
-      <span class="badge" :class="state ? 'badge-success' : 'badge-error'">
-        {{ state ? "Completed" : "Not completed" }}
-      </span>
+      <Toggle />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import Toggle from "../components/Toggle.vue";
+
 defineProps({
   name: String,
-  state: Boolean,
 });
 </script>
-
-<style scoped></style>

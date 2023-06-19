@@ -12,3 +12,7 @@ export interface Page {
 export interface Child {
   name: string;
 }
+
+export interface Card extends Child {
+  completed: boolean;
+}
