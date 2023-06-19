@@ -4,19 +4,8 @@
   >
     <h2 class="text-4xl text-center">Frans' & Energy Machines' ToDo-list</h2>
 
-    <div class="flex flex-col w-full items-center space-y-4">
-      <div class="flex space-x-4">
-        <button
-          v-for="(project, i) in projects"
-          :key="i"
-          @click="getPagesByProjectId(project.id, project.name)"
-          class="btn btn-primary"
-        >
-          {{ project.name }}
-        </button>
-      </div>
-
-      <section v-if="page" class="flex flex-col space-y-3 w-full">
+    <div class="flex flex-col w-full items-center">
+      <section class="flex flex-col space-y-3 w-full">
         <div class="flex justify-center items-center space-x-3">
           <input
             type="text"
@@ -46,28 +35,24 @@
         </button>
       </section>
     </div>
-    <h2 v-if="page" class="text-center text-3xl">Project {{ projectName }}</h2>
-    <div
-      v-if="page"
-      class="grid gap-4 items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-    >
-      <Card
-        v-for="(child, i) in page.children"
-        :key="i"
-        class="card"
-        v-bind="child"
-      />
-    </div>
+
+    <h2 class="text-2xl text-center">Projects</h2>
+    <Collapsable
+      v-for="(project, i) in projects"
+      :key="i"
+      :title="project.name"
+      :id="project.id"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getProjects, getPages } from "../services";
+import { getProjects } from "../services";
 import { Project as ProjectsType, Page as PageType } from "../models/index";
-import Card from "../components/Card.vue";
 
-const projectName = ref("");
+import Collapsable from "../components/Collapsable.vue";
+
 const inputText = ref("");
 const completed = ref(false);
 const projects = ref<ProjectsType[]>([]);
@@ -76,11 +61,6 @@ const page = ref<PageType>();
 onMounted(async (): Promise<void> => {
   projects.value = await getProjects();
 });
-
-async function getPagesByProjectId(id: string, name: string): Promise<void> {
-  page.value = await getPages(id);
-  projectName.value = name;
-}
 
 function addTodo(todoObject: { name: string; state: boolean }): void {
   page.value?.children.push(todoObject);

@@ -4,9 +4,9 @@
       <h2 class="card-title text-xl">
         {{ name }}
       </h2>
-      <div class="badge" :class="state ? 'badge-success' : 'badge-error'">
+      <span class="badge" :class="state ? 'badge-success' : 'badge-error'">
         {{ state ? "Completed" : "Not completed" }}
-      </div>
+      </span>
     </div>
   </div>
 </template>
